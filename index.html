@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music player</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://kit.fontawesome.com/75c9b461c9.js" crossorigin="anonymous"></script> 
+</head>
+<body>
+  <div class="container">
+    <div class="music-player">
+      <nav>
+        <div class="circle" onclick="prevSong()">
+          <i class="fa-solid fa-angle-left"></i>
+        </div>
+        <div class="circle" id="barsIcon" onclick="toggleMenu()">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+      </nav>
+      <img id="song-img" src="media/1.webp" class="song-img">
+      <h1 id="song-title">Yesterday</h1>
+      <p id="song-artist">Aventure</p>
+
+      <audio id="song">
+        <source id="song-source" src="media/yesterday.mp3" type="audio/mpeg">
+      </audio>
+      <input type="range" value="0" id="progress">
+
+      <div class="time-display">
+        <span id="current-time">0:00</span> / <span id="total-time">0:00</span>
+      </div>
+
+      <div class="controls">
+        <div onclick="prevSong()"><i class="fa-solid fa-backward"></i></div>
+        <div onclick="playPause()"> <i class="fa-solid fa-play" id="ctrlIcon"></i></div>
+        <div onclick="nextSong()"><i class="fa-solid fa-forward"></i></div>
+      </div>
+
+      <div class="volume-control">
+        <input type="range" id="volume" min="0" max="1" step="0.01" value="1">
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu for Playlist -->
+  <div id="menu" class="menu">
+    <div id="playlist" class="menu-item">
+      <h3>Playlist</h3>
+      <ul>
+        <li onclick="loadSong(0)">Yesterday - Aventure</li>
+        <li onclick="loadSong(1)">Moonlight Coffee - Yunior Arronte</li>
+        <li onclick="loadSong(2)">Dreams - Benjamin Tissot</li>
+      </ul>
+    </div>
+    <div id="settings" class="menu-item">
+      <h3>Settings</h3>
+    </div>
+  </div>
+
+  <script>
+    const songs = [
+      {
+        title: "Yesterday",
+        artist: "Aventure",
+        file: "media/yesterday.mp3",
+        image: "media/1.webp"
+      },
+      {
+        title: "Moonlight Coffee",
+        artist: "Yunior Arronte",
+        file: "media/moonlightcoffee.mp3",
+        image: "media/2.webp"
+      },
+      {
+        title: "Dreams",
+        artist: "Benjamin Tissot",
+        file: "media/dreams.mp3",
+        image: "media/3.webp"
+      }
+    ];
+
+    let currentSongIndex = 0;
+    let progress = document.getElementById("progress");
+    let song = document.getElementById("song");
+    let ctrlIcon = document.getElementById("ctrlIcon");
+    let currentTimeDisplay = document.getElementById("current-time");
+    let totalTimeDisplay = document.getElementById("total-time");
+    let volumeControl = document.getElementById("volume");
+
+    function loadSong(songIndex) {
+      const currentSong = songs[songIndex];
+      document.getElementById("song-title").textContent = currentSong.title;
+      document.getElementById("song-artist").textContent = currentSong.artist;
+      document.getElementById("song-img").src = currentSong.image;
+      document.getElementById("song-source").src = currentSong.file;
+      song.load();
+      song.play();
+      ctrlIcon.classList.add("fa-pause");
+      ctrlIcon.classList.remove("fa-play");
+    }
+
+    song.onloadedmetadata = function() {
+      progress.max = song.duration;
+      totalTimeDisplay.textContent = formatTime(song.duration);
+    };
+
+    song.ontimeupdate = function() {
+      progress.value = song.currentTime;
+      currentTimeDisplay.textContent = formatTime(song.currentTime);
+    };
+
+    function playPause() {
+      if (ctrlIcon.classList.contains("fa-pause")) {
+        song.pause();
+        ctrlIcon.classList.remove("fa-pause");
+        ctrlIcon.classList.add("fa-play");
+      } else {
+        song.play();
+        ctrlIcon.classList.add("fa-pause");
+        ctrlIcon.classList.remove("fa-play");
+      }
+    }
+
+    progress.oninput = function() {
+      song.currentTime = progress.value;
+      song.play();
+      ctrlIcon.classList.add("fa-pause");
+      ctrlIcon.classList.remove("fa-play");
+    };
+
+    function skip(seconds) {
+      song.currentTime += seconds;
+    }
+
+    volumeControl.oninput = function() {
+      song.volume = volumeControl.value;
+    }
+
+    function formatTime(seconds) {
+      let minutes = Math.floor(seconds / 60);
+      let secs = Math.floor(seconds % 60);
+      if (secs < 10) secs = "0" + secs;
+      return minutes + ":" + secs;
+    }
+
+    function nextSong() {
+      currentSongIndex = (currentSongIndex + 1) % songs.length;
+      loadSong(currentSongIndex);
+    }
+
+    function prevSong() {
+      currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+      loadSong(currentSongIndex);
+    }
+
+    // Toggles the menu visibility
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      if (menu.style.display === "block") {
+        menu.style.display = "none";
+      } else {
+        menu.style.display = "block";
+      }
+    }
+
+    loadSong(currentSongIndex);
+  </script>
+</body>
+</html>

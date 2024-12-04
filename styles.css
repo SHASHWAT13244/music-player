@@ -1,0 +1,264 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  background: url('https://cdn.pixabay.com/photo/2023/02/17/08/17/piano-7795476_1280.jpg') center/cover no-repeat; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: animeBackground 10s infinite linear; 
+}
+
+/* Keyframe animation for background */
+@keyframes animeBackground {
+  0% {
+    background-position: top left;
+  }
+  100% {
+    background-position: bottom right;
+  }
+}
+
+.music-player {
+  background: rgba(25, 25, 30, 0.8); /* Dark, semi-transparent background */
+  width: 380px;
+  padding: 25px;
+  text-align: center;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); /* Darker shadow for the dark theme */
+  backdrop-filter: blur(10px); /* Adding a blurred background effect */
+  position: relative;
+  z-index: 1;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+nav .circle {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  background: #ff66b2; /* Bright pink for anime style */
+  color: white;
+  box-shadow: 0 8px 20px rgba(255, 105, 180, 0.4); /* Soft pink shadow */
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+nav .circle:hover {
+  background: #ff99cc; /* Lighter pink on hover */
+  transform: scale(1.1); /* Slight scaling on hover */
+}
+
+.song-img {
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  border: 8px solid #fff;
+  box-shadow: 0 10px 60px rgba(0, 0, 0, 0.3);
+  transition: transform 0.4s ease;
+}
+
+.song-img:hover {
+  transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+.music-player h1 {
+  font-size: 22px;
+  font-weight: 500;
+  color: #ff66b2; /* Bold pink color for the title */
+  margin-top: 20px;
+  text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.7); /* Glowing effect on text */
+}
+
+.music-player p {
+  font-size: 14px;
+  color: #fff;
+  margin-top: 10px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6); /* Glowing effect for artist name */
+}
+
+#progress {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(to right, #ff66b2, #ff99cc); /* Gradient for progress bar */
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 40px 0;
+}
+
+#progress::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background: #ff66b2; /* Thumb with bright pink color */
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 6px solid #333; /* Dark border for contrast */
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.time-display {
+  color: #fff;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.controls div {
+  width: 60px;
+  height: 60px;
+  margin: 20px;
+  background: #ff66b2; /* Bright pink buttons */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: white;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7); /* Darker shadows */
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.controls div:hover {
+  background: #ff99cc; /* Light pink on hover */
+  transform: scale(1.2); /* Slight scale-up on hover */
+}
+
+.controls div:nth-child(2) {
+  background: #ff99cc; /* Play/pause button with bright pink */
+  color: #fff;
+  transform: scale(1.4);
+}
+
+.volume-control {
+  margin-top: 20px;
+}
+
+#volume {
+  width: 100%;
+  height: 8px;
+  background: #ff66b2;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#volume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background: #ff99cc;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 4px solid #333;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Adding cute animation effects */
+@keyframes animeButtonPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.controls div:nth-child(2) {
+  animation: animeButtonPulse 1s infinite; /* Fun button pulse animation */
+}
+
+/* Enhancing layout for responsiveness */
+@media (max-width: 768px) {
+  .music-player {
+    width: 90%;
+    padding: 20px 25px;
+  }
+
+  .song-img {
+    width: 180px;
+  }
+
+  .controls div {
+    width: 50px;
+    height: 50px;
+  }
+
+  .controls div:nth-child(2) {
+    transform: scale(1.4);
+  }
+}
+
+@media (max-width: 480px) {
+  .music-player {
+    width: 100%;
+    padding: 15px 20px;
+  }
+
+  .song-img {
+    width: 150px;
+  }
+
+  .controls div {
+    width: 40px;
+    height: 40px;
+  }
+
+  .controls div:nth-child(2) {
+    transform: scale(1.3);
+  }
+}
+
+.menu {
+  display: none;
+  position: absolute;
+  top: 70px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+.menu-item {
+  margin-bottom: 15px;
+}
+
+.menu-item h3 {
+  color: #ff66b2;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.menu-item ul {
+  list-style-type: none;
+}
+
+.menu-item li {
+  color: #f1f1f1;
+  cursor: pointer;
+  margin: 5px 0;
+  transition: color 0.3s ease;
+}
+
+.menu-item li:hover {
+  color: #ff66b2;
+}
